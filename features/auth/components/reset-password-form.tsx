@@ -25,49 +25,44 @@ export default function ResetPasswordForm() {
       setError("Passwords do not match.");
       return;
     }
-    // UI-only: navigate to login after reset
     router.push("/login");
   };
 
   return (
-    <div className="w-full max-w-md mx-auto bg-white p-8 rounded-2xl shadow-lg relative">
-      <div className="absolute -top-5 left-1/2 -translate-x-1/2 flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-l from-[#413b55] to-[#9082bb]">
+    <div className="w-full max-w-md mx-auto bg-surface p-8 rounded-2xl shadow-lg relative">
+      {/* Logo */}
+      <div className="absolute -top-5 left-1/2 -translate-x-1/2 flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-l from-primary-dark to-primary">
         <Image src={logo} alt="Logo" />
       </div>
 
-      <h2 className="mt-6 text-2xl font-bold text-center text-[#333333]">
+      <h2 className="mt-6 text-2xl font-bold text-center text-text">
         Reset password
       </h2>
-      <p className="mt-1 mb-6 text-sm text-center text-gray-500">
+
+      <p className="mt-1 mb-6 text-sm text-center text-muted">
         Choose a new password for your account.
       </p>
 
       <form className="space-y-5" onSubmit={handleSubmit}>
+        {/* NEW PASSWORD */}
         <div className="relative">
-          <label htmlFor="new-password" className="sr-only">
-            New password
-          </label>
-
-          <div className="absolute inset-y-0 left-0 flex items-center justify-center w-10 bg-[#E6E1F2] rounded-l-lg">
-            <Lock className="w-4 h-4 text-gray-500" />
+          <div className="absolute inset-y-0 left-0 flex items-center justify-center w-10 bg-surface border border-border rounded-l-lg">
+            <Lock className="w-4 h-4 text-muted" />
           </div>
 
           <input
-            id="new-password"
-            name="password"
             type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="New password"
-            className="w-full py-2.5 pr-10 pl-13 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#9082bb]"
-            required
+            className="w-full py-2.5 pr-10 pl-13 border border-border rounded-lg bg-background text-text
+            focus:outline-none focus:ring-1 focus:ring-primary"
           />
 
           <button
             type="button"
-            onClick={() => setShowPassword((s) => !s)}
-            aria-label={showPassword ? "Hide password" : "Show password"}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-text"
           >
             {showPassword ? (
               <EyeOff className="w-4 h-4" />
@@ -77,42 +72,37 @@ export default function ResetPasswordForm() {
           </button>
         </div>
 
+        {/* CONFIRM PASSWORD */}
         <div className="relative">
-          <label htmlFor="confirm-password" className="sr-only">
-            Confirm password
-          </label>
-
-          <div className="absolute inset-y-0 left-0 flex items-center justify-center w-10 bg-[#E6E1F2] rounded-l-lg">
-            <Lock className="w-4 h-4 text-gray-500" />
+          <div className="absolute inset-y-0 left-0 flex items-center justify-center w-10 bg-surface border border-border rounded-l-lg">
+            <Lock className="w-4 h-4 text-muted" />
           </div>
 
           <input
-            id="confirm-password"
-            name="confirm"
             type={showPassword ? "text" : "password"}
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
             placeholder="Confirm password"
-            className="w-full py-2.5 pr-10 pl-13 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#9082bb]"
-            required
+            className="w-full py-2.5 pr-3 pl-13 border border-border rounded-lg bg-background text-text
+            focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-red-500">{error}</p>}
 
         <button
           type="submit"
-          className="w-full py-2.5 text-white rounded-lg bg-gradient-to-l from-[#413b55] to-[#9082bb] hover:opacity-90 transition"
+          className="w-full py-2.5 text-white rounded-lg bg-gradient-to-l from-primary-dark to-primary hover:opacity-90 transition"
         >
           Reset password
         </button>
       </form>
 
-      <p className="mt-6 text-sm text-center text-gray-500">
+      <p className="mt-6 text-sm text-center text-muted">
         Remembered?{" "}
         <Link
           href="/login"
-          className="font-medium text-[#9082bb] hover:underline"
+          className="text-primary font-medium hover:underline"
         >
           Sign in
         </Link>

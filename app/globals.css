@@ -1,26 +1,61 @@
 @import "tailwindcss";
 
+/* =========================
+   DESIGN TOKENS
+========================= */
 :root {
-  --background: #ffffff;
+  --background: #efe7ff;
+  --surface: #fff;
+
   --foreground: #171717;
+  --text: #333333;
+  --text-muted: #6b7280;
+
+  --primary: #9082bb;
+  --primary-dark: #413b55;
+
+  --border: #d1d5db;
+
+  --radius: 0.5rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* =========================
+   DARK MODE
+========================= */
+.dark {
+  --background: #1d1d1d;
+  --surface: #2b2a2a;
+
+  --foreground: #ededed;
+  --text: #ffffff;
+  --text-muted: #a1a1aa;
+
+  --primary: #9082bb;
+  --primary-dark: #413b55;
+
+  --border: #444444;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* =========================
+   BASE STYLES
+========================= */
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================
+   TAILWIND THEME MAPPING
+========================= */
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+
+  --color-border: var(--border);
 }
