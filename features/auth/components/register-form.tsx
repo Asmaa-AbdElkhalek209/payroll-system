@@ -1,87 +1,72 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
-import { Mail, Lock, Eye, EyeOff, User } from "lucide-react";
+import { Mail, User } from "lucide-react";
 import logo from "@/app/assets/logo-icon-light.png";
+import {
+  AuthCard,
+  AuthHeader,
+  AuthFooter,
+  InputField,
+  PasswordField,
+  SubmitButton,
+} from "@/shared/components/auth";
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
-    <div className="w-full max-w-md mx-auto bg-surface p-8 rounded-2xl shadow-lg relative">
-      <div className="absolute -top-5 left-1/2 -translate-x-1/2 w-14 h-14 flex items-center justify-center rounded-full bg-gradient-to-l from-primary-dark to-primary">
-        <Image src={logo} alt="Logo" />
-      </div>
-
-      <h2 className="mt-6 text-2xl font-bold text-center text-text">
-        Create an account
-      </h2>
-
-      <p className="mt-1 mb-6 text-sm text-center text-muted">
-        Join and get back to work
-      </p>
+    <AuthCard logo={logo} logoAlt="Logo">
+      <AuthHeader
+        title="Create an account"
+        subtitle="Join and get back to work"
+      />
 
       <form className="space-y-5">
-        {/* Username */}
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 flex items-center justify-center w-10 bg-surface border border-border rounded-l-lg">
-            <User className="w-4 h-4 text-muted" />
-          </div>
+        <InputField
+          id="username"
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          icon={User}
+          autoComplete="username"
+          required
+        />
 
-          <input
-            type="text"
-            placeholder="Username"
-            className="w-full py-2.5 pr-3 pl-13 border border-border rounded-lg bg-background text-text focus:outline-none focus:ring-1 focus:ring-primary"
-          />
-        </div>
+        <InputField
+          id="email"
+          type="email"
+          placeholder="Email Address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          icon={Mail}
+          autoComplete="email"
+          required
+        />
 
-        {/* Email */}
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 flex items-center justify-center w-10 bg-surface border border-border rounded-l-lg">
-            <Mail className="w-4 h-4 text-muted" />
-          </div>
+        <PasswordField
+          id="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          showPassword={showPassword}
+          onTogglePassword={() => setShowPassword(!showPassword)}
+          autoComplete="new-password"
+          required
+        />
 
-          <input
-            type="email"
-            placeholder="Email Address"
-            className="w-full py-2.5 pr-3 pl-13 border border-border rounded-lg bg-background text-text focus:outline-none focus:ring-1 focus:ring-primary"
-          />
-        </div>
-
-        {/* Password */}
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 flex items-center justify-center w-10 bg-surface border border-border rounded-l-lg">
-            <Lock className="w-4 h-4 text-muted" />
-          </div>
-
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
-            className="w-full py-2.5 pr-10 pl-13 border border-border rounded-lg bg-background text-text focus:outline-none focus:ring-1 focus:ring-primary"
-          />
-
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-text"
-          >
-            {showPassword ? <EyeOff /> : <Eye />}
-          </button>
-        </div>
-
-        <button className="w-full py-2.5 text-white rounded-lg bg-gradient-to-l from-primary-dark to-primary">
-          Register
-        </button>
+        <SubmitButton>Register</SubmitButton>
       </form>
 
-      <p className="mt-6 text-sm text-center text-muted">
-        Already have an account?{" "}
-        <Link href="/login" className="text-primary hover:underline">
-          Sign in
-        </Link>
-      </p>
-    </div>
+      <AuthFooter
+        text="Already have an account?"
+        linkText="Sign in"
+        linkHref="/login"
+      />
+    </AuthCard>
   );
 }

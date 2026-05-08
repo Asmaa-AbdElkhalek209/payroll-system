@@ -1,85 +1,50 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
-import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Mail } from "lucide-react";
+import Link from "next/link";
 import logo from "@/app/assets/logo-icon-light.png";
+import {
+  AuthCard,
+  AuthHeader,
+  AuthFooter,
+  InputField,
+  PasswordField,
+  SubmitButton,
+} from "@/shared/components/auth";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   return (
-    <div className="w-full max-w-md mx-auto bg-surface p-8 rounded-2xl shadow-lg relative">
-      {/* Logo */}
-      <div className="absolute -top-5 left-1/2 -translate-x-1/2 flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-l from-primary-dark to-primary">
-        <Image src={logo} alt="Logo" />
-      </div>
+    <AuthCard logo={logo} logoAlt="Logo">
+      <AuthHeader title="Welcome back" subtitle="Let's get you back to work" />
 
-      {/* Title */}
-      <h2 className="mt-6 text-2xl font-bold text-center text-text">
-        Welcome back
-      </h2>
-
-      <p className="mt-1 mb-6 text-sm text-center text-muted">
-        Let’s get you back to work
-      </p>
-
-      {/* Form */}
       <form className="space-y-5">
-        {/* Email */}
-        <div className="relative">
-          <label htmlFor="email" className="sr-only">
-            Email Address
-          </label>
+        <InputField
+          id="email"
+          type="email"
+          placeholder="Email Address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          icon={Mail}
+          autoComplete="email"
+          required
+        />
 
-          <div className="absolute inset-y-0 left-0 flex items-center justify-center w-10 bg-surface border border-border rounded-l-lg">
-            <Mail className="w-4 h-4 text-muted" />
-          </div>
+        <PasswordField
+          id="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          showPassword={showPassword}
+          onTogglePassword={() => setShowPassword((prev) => !prev)}
+          autoComplete="current-password"
+          required
+        />
 
-          <input
-            id="email"
-            type="email"
-            placeholder="Email Address"
-            className="w-full py-2.5 pr-3 pl-13 border border-border rounded-lg bg-background text-text
-            focus:outline-none focus:ring-1 focus:ring-primary"
-          />
-        </div>
-
-        {/* Password */}
-        <div className="relative">
-          <label htmlFor="password" className="sr-only">
-            Password
-          </label>
-
-          <div className="absolute inset-y-0 left-0 flex items-center justify-center w-10 bg-surface border border-border rounded-l-lg">
-            <Lock className="w-4 h-4 text-muted" />
-          </div>
-
-          <input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
-            className="w-full py-2.5 pr-10 pl-13 border border-border rounded-lg bg-background text-text
-            focus:outline-none focus:ring-1 focus:ring-primary"
-          />
-
-          {/* Toggle Password */}
-          <button
-            type="button"
-            onClick={() => setShowPassword((prev) => !prev)}
-            aria-label={showPassword ? "Hide password" : "Show password"}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-text"
-          >
-            {showPassword ? (
-              <EyeOff className="w-4 h-4" />
-            ) : (
-              <Eye className="w-4 h-4" />
-            )}
-          </button>
-        </div>
-
-        {/* Forgot Password */}
         <div className="text-right">
           <Link
             href="/forgot-password"
@@ -89,25 +54,14 @@ export default function LoginForm() {
           </Link>
         </div>
 
-        {/* Submit */}
-        <button
-          type="submit"
-          className="w-full py-2.5 text-white rounded-lg bg-gradient-to-l from-primary-dark to-primary hover:opacity-90 transition"
-        >
-          Login
-        </button>
+        <SubmitButton>Login</SubmitButton>
       </form>
 
-      {/* Footer */}
-      <p className="mt-6 text-sm text-center text-muted">
-        Don't have an account?{" "}
-        <Link
-          href="/register"
-          className="font-medium text-primary hover:underline"
-        >
-          Sign up
-        </Link>
-      </p>
-    </div>
+      <AuthFooter
+        text="Don't have an account?"
+        linkText="Sign up"
+        linkHref="/register"
+      />
+    </AuthCard>
   );
 }
