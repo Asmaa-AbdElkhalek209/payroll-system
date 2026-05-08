@@ -1,11 +1,15 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
-import { Lock, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import logo from "@/app/assets/logo-icon-light.png";
+import {
+  AuthCard,
+  AuthHeader,
+  AuthFooter,
+  PasswordField,
+  SubmitButton,
+} from "@/shared/components/auth";
 
 export default function ResetPasswordForm() {
   const router = useRouter();
@@ -29,84 +33,41 @@ export default function ResetPasswordForm() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto bg-surface p-8 rounded-2xl shadow-lg relative">
-      {/* Logo */}
-      <div className="absolute -top-5 left-1/2 -translate-x-1/2 flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-l from-primary-dark to-primary">
-        <Image src={logo} alt="Logo" />
-      </div>
-
-      <h2 className="mt-6 text-2xl font-bold text-center text-text">
-        Reset password
-      </h2>
-
-      <p className="mt-1 mb-6 text-sm text-center text-muted">
-        Choose a new password for your account.
-      </p>
+    <AuthCard logo={logo} logoAlt="Logo">
+      <AuthHeader
+        title="Reset password"
+        subtitle="Choose a new password for your account."
+      />
 
       <form className="space-y-5" onSubmit={handleSubmit}>
-        {/* NEW PASSWORD */}
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 flex items-center justify-center w-10 bg-surface border border-border rounded-l-lg">
-            <Lock className="w-4 h-4 text-muted" />
-          </div>
+        <PasswordField
+          id="password"
+          placeholder="New password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          showPassword={showPassword}
+          onTogglePassword={() => setShowPassword(!showPassword)}
+          autoComplete="new-password"
+          required
+        />
 
-          <input
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="New password"
-            className="w-full py-2.5 pr-10 pl-13 border border-border rounded-lg bg-background text-text
-            focus:outline-none focus:ring-1 focus:ring-primary"
-          />
-
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-text"
-          >
-            {showPassword ? (
-              <EyeOff className="w-4 h-4" />
-            ) : (
-              <Eye className="w-4 h-4" />
-            )}
-          </button>
-        </div>
-
-        {/* CONFIRM PASSWORD */}
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 flex items-center justify-center w-10 bg-surface border border-border rounded-l-lg">
-            <Lock className="w-4 h-4 text-muted" />
-          </div>
-
-          <input
-            type={showPassword ? "text" : "password"}
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
-            placeholder="Confirm password"
-            className="w-full py-2.5 pr-3 pl-13 border border-border rounded-lg bg-background text-text
-            focus:outline-none focus:ring-1 focus:ring-primary"
-          />
-        </div>
+        <PasswordField
+          id="confirm"
+          placeholder="Confirm password"
+          value={confirm}
+          onChange={(e) => setConfirm(e.target.value)}
+          showPassword={showPassword}
+          onTogglePassword={() => setShowPassword(!showPassword)}
+          autoComplete="new-password"
+          required
+        />
 
         {error && <p className="text-sm text-red-500">{error}</p>}
 
-        <button
-          type="submit"
-          className="w-full py-2.5 text-white rounded-lg bg-gradient-to-l from-primary-dark to-primary hover:opacity-90 transition"
-        >
-          Reset password
-        </button>
+        <SubmitButton>Reset password</SubmitButton>
       </form>
 
-      <p className="mt-6 text-sm text-center text-muted">
-        Remembered?{" "}
-        <Link
-          href="/login"
-          className="text-primary font-medium hover:underline"
-        >
-          Sign in
-        </Link>
-      </p>
-    </div>
+      <AuthFooter text="Remembered?" linkText="Sign in" linkHref="/login" />
+    </AuthCard>
   );
 }
