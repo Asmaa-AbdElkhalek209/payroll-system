@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import logo from "@/app/assets/logo-icon-light.png";
@@ -11,15 +10,16 @@ import {
   InputField,
   SubmitButton,
 } from "@/shared/components/auth";
+import { useForgotPassword } from "../hooks/use-forgot-password";
 
 export default function ForgotPasswordForm() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    router.push("/verify-code");
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    onSubmit,
+  } = useForgotPassword();
 
   return (
     <AuthCard logo={logo} logoAlt="Logo">
@@ -28,19 +28,19 @@ export default function ForgotPasswordForm() {
         subtitle="Enter your email to receive a code"
       />
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <InputField
           id="email"
           type="email"
           placeholder="Email Address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
           icon={Mail}
           autoComplete="email"
           required
+          {...register("email")}
+          error={errors.email?.message as any}
         />
 
-        <SubmitButton>Send code</SubmitButton>
+        <SubmitButton isLoading={isSubmitting as any}>Send code</SubmitButton>
       </form>
 
       <AuthFooter text="Remembered?" linkText="Sign in" linkHref="/login" />

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Mail, User } from "lucide-react";
 import logo from "@/app/assets/logo-icon-light.png";
 import {
@@ -11,12 +10,15 @@ import {
   PasswordField,
   SubmitButton,
 } from "@/shared/components/auth";
+import { useRegister } from "../hooks/use-register";
 
 export default function RegisterForm() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    onSubmit,
+  } = useRegister();
 
   return (
     <AuthCard logo={logo} logoAlt="Logo">
@@ -25,41 +27,39 @@ export default function RegisterForm() {
         subtitle="Join and get back to work"
       />
 
-      <form className="space-y-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <InputField
           id="username"
           type="text"
           placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
           icon={User}
           autoComplete="username"
           required
+          {...register("username")}
+          error={errors.username?.message as any}
         />
 
         <InputField
           id="email"
           type="email"
           placeholder="Email Address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
           icon={Mail}
           autoComplete="email"
           required
+          {...register("email")}
+          error={errors.email?.message as any}
         />
 
         <PasswordField
           id="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          showPassword={showPassword}
-          onTogglePassword={() => setShowPassword(!showPassword)}
           autoComplete="new-password"
           required
+          {...register("password")}
+          error={errors.password?.message as any}
         />
 
-        <SubmitButton>Register</SubmitButton>
+        <SubmitButton isLoading={isSubmitting as any}>Register</SubmitButton>
       </form>
 
       <AuthFooter

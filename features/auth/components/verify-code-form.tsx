@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import logo from "@/app/assets/logo-icon-light.png";
+import Link from "next/link";
 import {
   AuthCard,
   AuthHeader,
@@ -11,28 +9,15 @@ import {
   SubmitButton,
   SecondaryButton,
 } from "@/shared/components/auth";
+import { useVerifyCode } from "../hooks/use-verify-code";
 
 export default function VerifyCodeForm() {
-  const router = useRouter();
-  const [code, setCode] = useState(["", "", "", ""]);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleChange = (value: string[], index: number) => {
-    setCode(value);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const finalCode = code.join("");
-
-    if (finalCode.length < 4) {
-      setError("Please enter the 4-digit code.");
-      return;
-    }
-
-    router.push("/reset-password");
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    onSubmit,
+  } = useVerifyCode();
 
   return (
     <AuthCard logo={logo} logoAlt="Logo">
@@ -44,16 +29,11 @@ export default function VerifyCodeForm() {
         Type the code we emailed to you.
       </p>
 
-      <form className="space-y-5" onSubmit={handleSubmit}>
-        <OtpInput
-          value={code}
-          onChange={handleChange}
-          length={4}
-          error={error}
-        />
+      <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+        <OtpInput name="code" length={4} register={register} error={errors.code ? (errors.code.message as any) : undefined} />
 
         <div className="flex flex-col items-center gap-4">
-          <SubmitButton>Verify</SubmitButton>
+          <SubmitButton isLoading={isSubmitting as any}>Verify</SubmitButton>
 
           <SecondaryButton>Resend code</SecondaryButton>
         </div>
