@@ -1,5 +1,6 @@
 import { LucideIcon } from "lucide-react";
 import { ReactNode } from "react";
+import { UseFormRegisterReturn, UseFormRegister } from "react-hook-form";
 
 export interface AuthCardProps {
   children: ReactNode;
@@ -22,40 +23,40 @@ export interface InputFieldProps {
   id?: string;
   type?: string;
   placeholder?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  icon: LucideIcon;
+  icon?: LucideIcon;
   error?: string;
   disabled?: boolean;
   required?: boolean;
   autoComplete?: string;
   name?: string;
+  // register return of react-hook-form for uncontrolled input
+  register?: UseFormRegisterReturn;
 }
 
 export interface PasswordFieldProps {
   id?: string;
   placeholder?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  showPassword?: boolean;
-  onTogglePassword?: () => void;
   error?: string;
   disabled?: boolean;
   required?: boolean;
   autoComplete?: string;
   name?: string;
+  // register return of react-hook-form for uncontrolled input
+  register?: UseFormRegisterReturn;
 }
 
 export interface OtpInputProps {
-  value: string[];
-  onChange: (value: string[], index: number) => void;
+  // name prefix for registering inputs, e.g. "code"
+  name?: string;
   length?: number;
   error?: string;
   disabled?: boolean;
+  // the register function from react-hook-form
+  register?: UseFormRegister<any>;
 }
 
 export interface SubmitButtonProps {

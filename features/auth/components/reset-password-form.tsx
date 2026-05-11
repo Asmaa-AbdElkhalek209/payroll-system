@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import logo from "@/app/assets/logo-icon-light.png";
 import {
   AuthCard,
@@ -10,27 +8,15 @@ import {
   PasswordField,
   SubmitButton,
 } from "@/shared/components/auth";
+import { useResetPassword } from "../hooks/use-reset-password";
 
 export default function ResetPasswordForm() {
-  const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      return;
-    }
-    if (password !== confirm) {
-      setError("Passwords do not match.");
-      return;
-    }
-    router.push("/login");
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    onSubmit,
+  } = useResetPassword();
 
   return (
     <AuthCard logo={logo} logoAlt="Logo">
@@ -39,32 +25,30 @@ export default function ResetPasswordForm() {
         subtitle="Choose a new password for your account."
       />
 
-      <form className="space-y-5" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <PasswordField
           id="password"
           placeholder="New password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          showPassword={showPassword}
-          onTogglePassword={() => setShowPassword(!showPassword)}
           autoComplete="new-password"
           required
+          {...register("password")}
+          error={errors.password?.message as any}
         />
 
         <PasswordField
           id="confirm"
           placeholder="Confirm password"
-          value={confirm}
-          onChange={(e) => setConfirm(e.target.value)}
-          showPassword={showPassword}
-          onTogglePassword={() => setShowPassword(!showPassword)}
           autoComplete="new-password"
           required
+          {...register("confirm")}
+          error={errors.confirm?.message as any}
         />
 
-        {error && <p className="text-sm text-red-500">{error}</p>}
+        {errors.root && (
+          <p className="text-sm text-red-500">{(errors.root.message as any) || null}</p>
+        )}
 
-        <SubmitButton>Reset password</SubmitButton>
+        <SubmitButton isLoading={isSubmitting as any}>Reset password</SubmitButton>
       </form>
 
       <AuthFooter text="Remembered?" linkText="Sign in" linkHref="/login" />
