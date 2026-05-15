@@ -1,0 +1,115 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+
+import { usePathname } from "next/navigation";
+
+import { ChevronRight, LogOut } from "lucide-react";
+
+import { sidebarMenu } from "./sidebar-menu";
+
+import logoFull from "@/app/assets/logo.png";
+import logoIcon from "@/app/assets/logo-ico.png";
+
+export default function Sidebar({ open }: { open: boolean }) {
+  const pathname = usePathname();
+
+  return (
+    <aside
+      className={`
+        bg-surface
+        border-r border-border
+        h-screen
+        flex flex-col
+        transition-all duration-300
+        ${open ? "w-64" : "w-20"}
+      `}
+    >
+      {/* Logo */}
+      <div className="flex items-center justify-center h-20 border-b border-border">
+        <div
+          className={`
+            transition-all duration-300
+            flex items-center justify-center
+            ${open ? "w-44" : "w-10"}
+          `}
+        >
+          <Image
+            src={open ? logoFull : logoIcon}
+            alt="Logo"
+            className="w-full h-auto object-contain"
+            priority
+          />
+        </div>
+      </div>
+
+      {/* Menu */}
+      <ul className="flex-1 mt-5 flex flex-col gap-2 px-2">
+        {sidebarMenu.map((item) => {
+          const isActive = pathname === item.href;
+
+          return (
+            <li key={item.href}>
+              <Link
+                href={item.href}
+                className={`
+                  flex items-center justify-between
+                  p-3 rounded-lg
+                  transition-colors duration-200
+
+                  ${
+                    isActive
+                      ? "bg-gradient-to-l from-primary-dark to-primary text-white"
+                      : "text-text hover:bg-background"
+                  }
+                `}
+              >
+                {/* Left */}
+                <div
+                  className={`
+                    flex items-center gap-3
+                    ${!open ? "justify-center w-full" : ""}
+                  `}
+                >
+                  {/* Icon */}
+                  <span>
+                    <item.icon className="w-5 h-5" aria-hidden="true" />
+                  </span>
+
+                  {/* Label */}
+                  {open && (
+                    <span className="text-sm font-medium">{item.label}</span>
+                  )}
+                </div>
+
+                {/* Arrow */}
+                {open && <ChevronRight size={18} />}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+
+      {/* Logout */}
+      <div className="pb-4">
+        <button
+          className={`
+            flex items-center gap-3
+            w-full p-3
+            rounded-lg
+            text-red-500
+            hover:bg-background
+            transition-colors duration-200
+
+            ${!open ? "justify-center" : ""}
+          `}
+        >
+          <LogOut size={20} />
+
+          {open && <span className="text-sm font-medium">Logout</span>}
+        </button>
+      </div>
+    </aside>
+  );
+}
