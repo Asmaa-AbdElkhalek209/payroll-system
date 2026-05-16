@@ -1,0 +1,14 @@
+{
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "employees": "Employees",
+    "payroll": "Payroll",
+    "attendance": "Attendance",
+    "reports": "Reports",
+    "logout": "Logout"
+  },
+
+  "navbar": {
+    "search": "Search..."
+  }
+}

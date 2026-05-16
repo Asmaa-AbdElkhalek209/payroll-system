@@ -6,6 +6,8 @@ import Image from "next/image";
 import userImg from "@/app/assets/user.png";
 
 import { useTheme } from "@/shared/providers/theme-provider";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/shared/components/language-switcher";
 
 export default function Navbar({
   toggleSidebar,
@@ -13,7 +15,7 @@ export default function Navbar({
   toggleSidebar: () => void;
 }) {
   const { theme, toggleTheme } = useTheme();
-
+  const { t } = useTranslation();
   return (
     <header className="w-full flex items-center justify-between h-20 px-4 bg-surface border-b border-border">
       {/* Left */}
@@ -26,7 +28,7 @@ export default function Navbar({
           <Search className="absolute left-3 top-2.5 text-text-muted w-4 h-4" />
 
           <input
-            placeholder="Search..."
+            placeholder={t("navbar.search")}
             className="pl-10 pr-3 py-2 rounded-md bg-background border border-border focus:outline-none"
           />
         </div>
@@ -45,6 +47,7 @@ export default function Navbar({
             <Moon className="w-5 h-5" />
           )}
         </button>
+        <LanguageSwitcher />
 
         {/* Notifications */}
         <Bell className="w-5 h-5 cursor-pointer" />

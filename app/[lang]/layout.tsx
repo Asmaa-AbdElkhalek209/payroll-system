@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import "./globals.css";
+import "../globals.css";
 
 import ReactQueryProvider from "@/shared/providers/react-query-provider";
 import { ThemeProvider } from "@/shared/providers/theme-provider";
+import TranslationInitializer from "@/shared/components/translation-initializer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,12 +24,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+  params,
+}: {
   children: React.ReactNode;
-}>) {
+  params: { lang: string };
+}) {
+  const dir = params.lang === "ar" ? "rtl" : "ltr";
+
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang={params.lang} dir={dir}>
       <body className="min-h-screen bg-background text-text">
+        <TranslationInitializer />
         <ThemeProvider>
           <ReactQueryProvider>{children}</ReactQueryProvider>
         </ThemeProvider>

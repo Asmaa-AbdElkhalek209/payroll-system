@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useParams } from "next/navigation";
 
 import { ChevronRight, LogOut } from "lucide-react";
 
@@ -11,10 +11,13 @@ import { sidebarMenu } from "./sidebar-menu";
 
 import logoFull from "@/app/assets/logo.png";
 import logoIcon from "@/app/assets/logo-ico.png";
+import { useTranslation } from "react-i18next";
 
 export default function Sidebar({ open }: { open: boolean }) {
   const pathname = usePathname();
-
+  const params = useParams();
+  const lang = params.lang || "en";
+  const { t } = useTranslation();
   return (
     <aside
       className={`
@@ -47,12 +50,13 @@ export default function Sidebar({ open }: { open: boolean }) {
       {/* Menu */}
       <ul className="flex-1 mt-5 flex flex-col gap-2 px-2">
         {sidebarMenu.map((item) => {
-          const isActive = pathname === item.href;
+          const fullHref = `/${lang}${item.href}`;
+          const isActive = pathname === fullHref;
 
           return (
             <li key={item.href}>
               <Link
-                href={item.href}
+                href={fullHref}
                 className={`
                   flex items-center justify-between
                   p-3 rounded-lg
@@ -79,7 +83,9 @@ export default function Sidebar({ open }: { open: boolean }) {
 
                   {/* Label */}
                   {open && (
-                    <span className="text-sm font-medium">{item.label}</span>
+                    <span className="text-sm font-medium">
+                      {t(`sidebar.${item.key}`)}
+                    </span>
                   )}
                 </div>
 

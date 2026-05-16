@@ -1,9 +1,33 @@
 import { Home, Users, Folder, Calendar, FileText } from "lucide-react";
 
 export const sidebarMenu = [
-  { label: "Dashboard", icon: Home, href: "/dashboard" },
-  { label: "Employees", icon: Users, href: "/dashboard/employees" },
-  { label: "Payroll", icon: Folder, href: "/dashboard/payroll" },
-  { label: "Attendance", icon: Calendar, href: "/dashboard/attendance" },
-  { label: "Reports", icon: FileText, href: "/dashboard/reports" },
+  {
+    key: "dashboard",
+    icon: Home,
+    href: "/dashboard",
+  },
+
+  {
+    key: "employees",
+    icon: Users,
+    href: "/dashboard/employees",
+  },
+
+  {
+    key: "payroll",
+    icon: Folder,
+    href: "/dashboard/payroll",
+  },
+
+  {
+    key: "attendance",
+    icon: Calendar,
+    href: "/dashboard/attendance",
+  },
+
+  {
+    key: "reports",
+    icon: FileText,
+    href: "/dashboard/reports",
+  },
 ];
