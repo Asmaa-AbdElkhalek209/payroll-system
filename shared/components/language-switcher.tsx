@@ -1,36 +1,28 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams, useParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useLang } from "@/shared/components/translation-initializer";
+
+type Lang = "en" | "ar";
 
 export default function LanguageSwitcher() {
   const router = useRouter();
-  const pathname = usePathname() || "/";
-  const search = useSearchParams();
-  const params = useParams();
-  const currentLang = (params?.lang ?? "en") as "en" | "ar";
-n  const swap = (newLang: "en" | "ar") => {
-    const without = pathname.replace(/^\/(en|ar)(?=\/|$)/, "");
-    const target = `/${newLang}${without === "" ? "/" : without}${search ? `?${search.toString()}` : ""}`;
-    router.push(target);
+  const pathname = usePathname();
+  const currentLang = (useLang() as Lang) || "en";
+  const label = currentLang === "en" ? "AR" : "EN";
+  const toggleLang = () => {
+    const newLang: Lang = currentLang === "en" ? "ar" : "en";
+    const current = pathname ?? (typeof window !== "undefined" ? window.location.pathname : "/");
+    const withoutLang = current.replace(/^\/(en|ar)(?=\/|$)/, "");
+    const newPath = `/${newLang}${withoutLang}`;
+    router.push(newPath);
   };
-n  return (
-    <div className="flex items-center gap-2">
-      <button
-        aria-label="switch to english"
-        disabled={currentLang === "en"}
-        onClick={() => swap("en")}
-        className="px-2 py-1 rounded disabled:opacity-50"
-      >
-        EN
-      </button>
-n      <button
-        aria-label="switch to arabic"
-        disabled={currentLang === "ar"}
-        onClick={() => swap("ar")}
-        className="px-2 py-1 rounded disabled:opacity-50"
-      >
-        AR
-      </button>
-    </div>
+  return (
+    <button
+      onClick={toggleLang}
+      className="p-1 rounded border border-border bg-surface hover:bg-background transition"
+    >
+      {label}
+    </button>
   );
 }

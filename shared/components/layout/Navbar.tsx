@@ -7,34 +7,47 @@ import userImg from "@/app/assets/user.png";
 
 import { useTheme } from "@/shared/providers/theme-provider";
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "@/shared/components/language-switcher";
 
-export default function Navbar({
-  toggleSidebar,
-}: {
-  toggleSidebar: () => void;
-}) {
-  const { theme, toggleTheme } = useTheme();
-  const { t } = useTranslation();
+import LanguageSwitcher from "@/shared/components/language-switcher";
+import { useLang } from "@/shared/components/translation-initializer";export default function Navbar({  toggleSidebar,}: {  toggleSidebar: () => void;}) {  const { theme, toggleTheme } = useTheme();  const { t } = useTranslation();  const lang = useLang();  const isRTL = lang === "ar";
   return (
-    <header className="w-full flex items-center justify-between h-20 px-4 bg-surface border-b border-border">
-      {/* Left */}
+    <header
+      className="
+        w-full h-20 px-4
+        flex items-center justify-between
+        bg-surface border-b border-border
+      "
+    >
+      {/* Left Section */}
       <div className="flex items-center gap-3">
-        <button onClick={toggleSidebar}>
+        <button
+          onClick={toggleSidebar}
+          className="p-2 rounded hover:bg-background"
+        >
           <Menu />
         </button>
 
+        {/* Search */}
         <div className="relative hidden md:block">
-          <Search className="absolute left-3 top-2.5 text-text-muted w-4 h-4" />
+          <Search
+            className={`
+              absolute top-2.5 w-4 h-4 text-text-muted
+              ${isRTL ? "right-3" : "left-3"}
+            `}
+          />
 
           <input
             placeholder={t("navbar.search")}
-            className="pl-10 pr-3 py-2 rounded-md bg-background border border-border focus:outline-none"
+            className={`
+              py-2 rounded-md bg-background border border-border
+              focus:outline-none
+              ${isRTL ? "pr-10 pl-3" : "pl-10 pr-3"}
+            `}
           />
         </div>
       </div>
 
-      {/* Right */}
+      {/* Right Section */}
       <div className="flex items-center gap-4">
         {/* Theme Toggle */}
         <button
@@ -47,14 +60,21 @@ export default function Navbar({
             <Moon className="w-5 h-5" />
           )}
         </button>
-        <LanguageSwitcher />
 
         {/* Notifications */}
-        <Bell className="w-5 h-5 cursor-pointer" />
+        <button className="p-2 rounded hover:bg-background">
+          <Bell className="w-5 h-5" />
+        </button>
+        {/* Language Switcher */}
+        <LanguageSwitcher />
 
         {/* User */}
-        <div className="w-9 h-9 rounded-full overflow-hidden">
-          <Image src={userImg} alt="User" className="object-cover" />
+        <div className="w-12 h-12 rounded-full overflow-hidden border border-border">
+          <Image
+            src={userImg}
+            alt="User"
+            className="object-cover w-full h-full"
+          />
         </div>
       </div>
     </header>
