@@ -4,14 +4,16 @@ import logo from "@/app/assets/logo-icon-light.png";
 import Link from "next/link";
 import {
   AuthCard,
-  AuthHeader,
   OtpInput,
   SubmitButton,
   SecondaryButton,
 } from "@/shared/components/auth";
 import { useVerifyCode } from "../hooks/use-verify-code";
+import { useParams } from "next/navigation";
 
 export default function VerifyCodeForm() {
+  const params = useParams();
+  const lang = params.lang;
   const {
     register,
     handleSubmit,
@@ -30,10 +32,15 @@ export default function VerifyCodeForm() {
       </p>
 
       <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
-        <OtpInput name="code" length={4} register={register} error={errors.code ? (errors.code.message as any) : undefined} />
+        <OtpInput
+          name="code"
+          length={4}
+          register={register}
+          error={errors.code ? errors.code.message : undefined}
+        />
 
         <div className="flex flex-col items-center gap-4">
-          <SubmitButton isLoading={isSubmitting as any}>Verify</SubmitButton>
+          <SubmitButton isLoading={isSubmitting}>Verify</SubmitButton>
 
           <SecondaryButton>Resend code</SecondaryButton>
         </div>
@@ -42,7 +49,7 @@ export default function VerifyCodeForm() {
       <p className="mt-6 text-sm text-center text-muted">
         Did you get a different email?{" "}
         <Link
-          href="/forgot-password"
+          href={`/${lang}/forgot-password`}
           className="text-primary font-medium hover:underline"
         >
           Use another email

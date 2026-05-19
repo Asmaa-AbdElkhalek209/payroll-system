@@ -10,24 +10,24 @@ export const sidebarMenu = [
   {
     key: "employees",
     icon: Users,
-    href: "/dashboard/employees",
+    href: "/employees",
   },
 
   {
     key: "payroll",
     icon: Folder,
-    href: "/dashboard/payroll",
+    href: "/payroll",
   },
 
   {
     key: "attendance",
     icon: Calendar,
-    href: "/dashboard/attendance",
+    href: "/attendance",
   },
 
   {
     key: "reports",
     icon: FileText,
-    href: "/dashboard/reports",
+    href: "/reports",
   },
 ];

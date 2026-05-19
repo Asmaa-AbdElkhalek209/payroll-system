@@ -2,27 +2,33 @@
 
 import Link from "next/link";
 import Image from "next/image";
-
 import { usePathname, useParams } from "next/navigation";
 
-import { ChevronRight, LogOut } from "lucide-react";
+import { ChevronRight, ChevronLeft, LogOut } from "lucide-react";
 
 import { sidebarMenu } from "./sidebar-menu";
 
 import logoFull from "@/app/assets/logo.png";
 import logoIcon from "@/app/assets/logo-ico.png";
+
 import { useTranslation } from "react-i18next";
+
+type Lang = "en" | "ar";
 
 export default function Sidebar({ open }: { open: boolean }) {
   const pathname = usePathname();
   const params = useParams();
-  const lang = params.lang || "en";
+
+  const lang = (params.lang as Lang) || "en";
+  const isRTL = lang === "ar";
+
   const { t } = useTranslation();
+
   return (
     <aside
       className={`
         bg-surface
-        border-r border-border
+        border-e border-border
         h-screen
         flex flex-col
         transition-all duration-300
@@ -53,6 +59,8 @@ export default function Sidebar({ open }: { open: boolean }) {
           const fullHref = `/${lang}${item.href}`;
           const isActive = pathname === fullHref;
 
+          const Icon = item.icon;
+
           return (
             <li key={item.href}>
               <Link
@@ -69,7 +77,7 @@ export default function Sidebar({ open }: { open: boolean }) {
                   }
                 `}
               >
-                {/* Left */}
+                {/* Left side */}
                 <div
                   className={`
                     flex items-center gap-3
@@ -77,9 +85,7 @@ export default function Sidebar({ open }: { open: boolean }) {
                   `}
                 >
                   {/* Icon */}
-                  <span>
-                    <item.icon className="w-5 h-5" aria-hidden="true" />
-                  </span>
+                  <Icon className="w-5 h-5" aria-hidden="true" />
 
                   {/* Label */}
                   {open && (
@@ -90,7 +96,12 @@ export default function Sidebar({ open }: { open: boolean }) {
                 </div>
 
                 {/* Arrow */}
-                {open && <ChevronRight size={18} />}
+                {open &&
+                  (isRTL ? (
+                    <ChevronLeft size={18} />
+                  ) : (
+                    <ChevronRight size={18} />
+                  ))}
               </Link>
             </li>
           );
@@ -113,7 +124,9 @@ export default function Sidebar({ open }: { open: boolean }) {
         >
           <LogOut size={20} />
 
-          {open && <span className="text-sm font-medium">Logout</span>}
+          {open && (
+            <span className="text-sm font-medium">{t("sidebar.logout")}</span>
+          )}
         </button>
       </div>
     </aside>

@@ -9,7 +9,19 @@ import { useTheme } from "@/shared/providers/theme-provider";
 import { useTranslation } from "react-i18next";
 
 import LanguageSwitcher from "@/shared/components/language-switcher";
-import { useLang } from "@/shared/components/translation-initializer";export default function Navbar({  toggleSidebar,}: {  toggleSidebar: () => void;}) {  const { theme, toggleTheme } = useTheme();  const { t } = useTranslation();  const lang = useLang();  const isRTL = lang === "ar";
+
+import { useLang } from "@/shared/components/translation-initializer";
+
+export default function Navbar({
+  toggleSidebar,
+}: {
+  toggleSidebar: () => void;
+}) {
+  const { theme, toggleTheme } = useTheme();
+  const { t } = useTranslation();
+
+  const lang = useLang();
+  const isRTL = lang === "ar";
   return (
     <header
       className="

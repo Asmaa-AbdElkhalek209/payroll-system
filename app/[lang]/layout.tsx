@@ -41,7 +41,7 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
       <body className="min-h-screen bg-background text-text">
-        <TranslationInitializer lang={lang}>{/*يظبط اللغة عند فتح الصفحة أو refresh*/}
+        <TranslationInitializer lang={lang}>
           <ThemeProvider>
             <ReactQueryProvider>{children}</ReactQueryProvider>
           </ThemeProvider>

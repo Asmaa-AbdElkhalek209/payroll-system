@@ -1,6 +1,7 @@
 "use client";
 
 import { Mail, User } from "lucide-react";
+import { useParams } from "next/navigation";
 import logo from "@/app/assets/logo-icon-light.png";
 import {
   AuthCard,
@@ -13,6 +14,8 @@ import {
 import { useRegister } from "../hooks/use-register";
 
 export default function RegisterForm() {
+  const params = useParams();
+  const lang = params.lang;
   const {
     register,
     handleSubmit,
@@ -36,7 +39,7 @@ export default function RegisterForm() {
           autoComplete="username"
           required
           {...register("username")}
-          error={errors.username?.message as any}
+          error={errors.username?.message}
         />
 
         <InputField
@@ -47,7 +50,7 @@ export default function RegisterForm() {
           autoComplete="email"
           required
           {...register("email")}
-          error={errors.email?.message as any}
+          error={errors.email?.message}
         />
 
         <PasswordField
@@ -56,16 +59,16 @@ export default function RegisterForm() {
           autoComplete="new-password"
           required
           {...register("password")}
-          error={errors.password?.message as any}
+          error={errors.password?.message}
         />
 
-        <SubmitButton isLoading={isSubmitting as any}>Register</SubmitButton>
+        <SubmitButton isLoading={isSubmitting}>Register</SubmitButton>
       </form>
 
       <AuthFooter
         text="Already have an account?"
         linkText="Sign in"
-        linkHref="/login"
+        linkHref={`/${lang}/login`}
       />
     </AuthCard>
   );
