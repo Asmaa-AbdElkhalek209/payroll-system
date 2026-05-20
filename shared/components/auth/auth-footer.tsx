@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { AuthFooterProps } from "../../../features/auth/types/auth-types";
+import { AuthFooterProps } from "../../types/auth-types";
 
 export function AuthFooter({ text, linkText, linkHref }: AuthFooterProps) {
   return (

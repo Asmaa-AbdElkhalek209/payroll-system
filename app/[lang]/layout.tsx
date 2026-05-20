@@ -6,6 +6,7 @@ import "../globals.css";
 import ReactQueryProvider from "@/shared/providers/react-query-provider";
 import { ThemeProvider } from "@/shared/providers/theme-provider";
 import TranslationInitializer from "@/shared/components/translation-initializer";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +29,7 @@ export default async function RootLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ lang: string }>;
+  params: Promise<{ lang: "en" | "ar" }>;
 }) {
   const { lang } = await params;
 
@@ -43,7 +44,10 @@ export default async function RootLayout({
       <body className="min-h-screen bg-background text-text">
         <TranslationInitializer lang={lang}>
           <ThemeProvider>
-            <ReactQueryProvider>{children}</ReactQueryProvider>
+            <ReactQueryProvider>
+              <Toaster position="top-right" />
+              {children}
+            </ReactQueryProvider>
           </ThemeProvider>
         </TranslationInitializer>
       </body>

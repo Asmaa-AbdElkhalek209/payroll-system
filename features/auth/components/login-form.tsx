@@ -3,6 +3,7 @@
 import { Mail } from "lucide-react";
 import Link from "next/link";
 import logo from "@/app/assets/logo-icon-light.png";
+
 import {
   AuthCard,
   AuthHeader,
@@ -11,45 +12,53 @@ import {
   PasswordField,
   SubmitButton,
 } from "@/shared/components/auth";
+
 import { useLogin } from "../hooks/use-login";
 import { useParams } from "next/navigation";
 
+/**
+ * LoginForm component for user authentication
+ * Handles the login form UI and form submission
+ */
 export default function LoginForm() {
+  // Extract language parameter from URL
   const params = useParams();
   const lang = params.lang;
-  // console.log("Current language:", lang);
+
+  // Destructure properties from the useLogin custom hook
   const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    onSubmit,
+    register, // Function to register form inputs
+    handleSubmit, // Function to handle form submission
+    formState: { errors }, // Form state containing validation errors
+    onSubmit, // Submission handler function
+    isSubmitting, // Loading state during form submission
   } = useLogin();
 
   return (
     <AuthCard logo={logo} logoAlt="Logo">
       <AuthHeader title="Welcome back" subtitle="Let's get you back to work" />
 
+      {/* Login form with email and password fields */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        {/* Email input field with icon and validation */}
         <InputField
           id="email"
           type="email"
           placeholder="Email Address"
           icon={Mail}
           autoComplete="email"
-          required
           {...register("email")}
           error={errors.email?.message}
         />
-
+        {/* Password input field with icon and validation */}
         <PasswordField
           id="password"
           placeholder="Password"
           autoComplete="current-password"
-          required
           {...register("password")}
           error={errors.password?.message}
         />
-
+        {/* Forgot password link */}
         <div className="text-right">
           <Link
             href={`/${lang}/forgot-password`}
@@ -58,10 +67,13 @@ export default function LoginForm() {
             Forgot Password?
           </Link>
         </div>
-
-        <SubmitButton isLoading={isSubmitting}>Login</SubmitButton>
+        {/* Submit button with loading state */}
+        <SubmitButton isLoading={isSubmitting}>
+          {isSubmitting ? "Signing you in..." : "Login"}
+        </SubmitButton>{" "}
       </form>
 
+      {/* Sign up link for new users */}
       <AuthFooter
         text="Don't have an account?"
         linkText="Sign up"

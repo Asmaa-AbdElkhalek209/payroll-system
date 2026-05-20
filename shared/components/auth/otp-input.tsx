@@ -1,6 +1,6 @@
 "use client";
 
-import { OtpInputProps } from "../../../features/auth/types/auth-types";
+import { OtpInputProps } from "../../types/auth-types";
 
 export function OtpInput({
   name = "code",

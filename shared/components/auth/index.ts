@@ -7,4 +7,3 @@ export * from "./password-field";
 export * from "./otp-input";
 export * from "./submit-button";
 export * from "./secondary-button";
-export * from "../../../features/auth/types/auth-types";

@@ -1,6 +1,6 @@
 "use client";
 
-import { SecondaryButtonProps } from "../../../features/auth/types/auth-types";
+import { SecondaryButtonProps } from "../../types/auth-types";
 
 export function SecondaryButton({
   children,
