@@ -1,15 +1,25 @@
 "use client";
 
-import { OtpInputProps } from "../../types/auth-types";
+import { OtpInputProps } from "../../../features/auth/types/auth-types";
 
-export function OtpInput({ name = "code", length = 4, error, disabled = false, register }: OtpInputProps) {
+export function OtpInput({
+  name = "code",
+  length = 4,
+  error,
+  disabled = false,
+  register,
+}: OtpInputProps) {
   const handleFocusNext = (index: number) => {
-    const next = document.getElementById(`otp-input-${index + 1}`) as HTMLInputElement | null;
+    const next = document.getElementById(
+      `otp-input-${index + 1}`
+    ) as HTMLInputElement | null;
     next?.focus();
   };
 
   const handleFocusPrev = (index: number) => {
-    const prev = document.getElementById(`otp-input-${index - 1}`) as HTMLInputElement | null;
+    const prev = document.getElementById(
+      `otp-input-${index - 1}`
+    ) as HTMLInputElement | null;
     prev?.focus();
   };
 
@@ -18,7 +28,9 @@ export function OtpInput({ name = "code", length = 4, error, disabled = false, r
       <div className="flex justify-center gap-3">
         {Array.from({ length }).map((_, index) => {
           // register each input as `${name}.${index}`
-          const reg = register ? register(`${name}.${index}`, { required: true, maxLength: 1 }) : undefined;
+          const reg = register
+            ? register(`${name}.${index}`, { required: true, maxLength: 1 })
+            : undefined;
 
           return (
             <input
@@ -40,7 +52,11 @@ export function OtpInput({ name = "code", length = 4, error, disabled = false, r
                 }
               }}
               onKeyDown={(e) => {
-                if (e.key === "Backspace" && !(e.currentTarget as HTMLInputElement).value && index > 0) {
+                if (
+                  e.key === "Backspace" &&
+                  !(e.currentTarget as HTMLInputElement).value &&
+                  index > 0
+                ) {
                   handleFocusPrev(index);
                 }
               }}

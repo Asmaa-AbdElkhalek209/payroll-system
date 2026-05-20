@@ -1,6 +1,6 @@
 "use client";
 
-import { InputFieldProps } from "../../types/auth-types";
+import { InputFieldProps } from "../../../features/auth/types/auth-types";
 
 export function InputField({
   id,

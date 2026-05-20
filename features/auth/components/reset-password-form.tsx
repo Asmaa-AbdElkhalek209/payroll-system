@@ -9,8 +9,11 @@ import {
   SubmitButton,
 } from "@/shared/components/auth";
 import { useResetPassword } from "../hooks/use-reset-password";
+import { useParams } from "next/navigation";
 
 export default function ResetPasswordForm() {
+  const params = useParams();
+  const lang = params.lang;
   const {
     register,
     handleSubmit,
@@ -32,7 +35,7 @@ export default function ResetPasswordForm() {
           autoComplete="new-password"
           required
           {...register("password")}
-          error={errors.password?.message as any}
+          error={errors.password?.message}
         />
 
         <PasswordField
@@ -41,17 +44,21 @@ export default function ResetPasswordForm() {
           autoComplete="new-password"
           required
           {...register("confirm")}
-          error={errors.confirm?.message as any}
+          error={errors.confirm?.message}
         />
 
         {errors.root && (
-          <p className="text-sm text-red-500">{(errors.root.message as any) || null}</p>
+          <p className="text-sm text-red-500">{errors.root.message || null}</p>
         )}
 
-        <SubmitButton isLoading={isSubmitting as any}>Reset password</SubmitButton>
+        <SubmitButton isLoading={isSubmitting}>Reset password</SubmitButton>
       </form>
 
-      <AuthFooter text="Remembered?" linkText="Sign in" linkHref="/login" />
+      <AuthFooter
+        text="Remembered?"
+        linkText="Sign in"
+        linkHref={`/${lang}/login`}
+      />
     </AuthCard>
   );
 }

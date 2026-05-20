@@ -12,8 +12,12 @@ import {
   SubmitButton,
 } from "@/shared/components/auth";
 import { useLogin } from "../hooks/use-login";
+import { useParams } from "next/navigation";
 
 export default function LoginForm() {
+  const params = useParams();
+  const lang = params.lang;
+  // console.log("Current language:", lang);
   const {
     register,
     handleSubmit,
@@ -34,7 +38,7 @@ export default function LoginForm() {
           autoComplete="email"
           required
           {...register("email")}
-          error={errors.email?.message as any}
+          error={errors.email?.message}
         />
 
         <PasswordField
@@ -43,25 +47,25 @@ export default function LoginForm() {
           autoComplete="current-password"
           required
           {...register("password")}
-          error={errors.password?.message as any}
+          error={errors.password?.message}
         />
 
         <div className="text-right">
           <Link
-            href="/forgot-password"
+            href={`/${lang}/forgot-password`}
             className="text-sm font-medium text-primary hover:underline"
           >
             Forgot Password?
           </Link>
         </div>
 
-        <SubmitButton isLoading={isSubmitting as any}>Login</SubmitButton>
+        <SubmitButton isLoading={isSubmitting}>Login</SubmitButton>
       </form>
 
       <AuthFooter
         text="Don't have an account?"
         linkText="Sign up"
-        linkHref="/register"
+        linkHref={`/${lang}/register`}
       />
     </AuthCard>
   );

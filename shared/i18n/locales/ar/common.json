@@ -1,0 +1,14 @@
+{
+  "sidebar": {
+    "dashboard": "لوحة التحكم",
+    "employees": "الموظفين",
+    "payroll": "الرواتب",
+    "attendance": "الحضور",
+    "reports": "التقارير",
+    "logout": "تسجيل الخروج"
+  },
+
+  "navbar": {
+    "search": "بحث..."
+  }
+}
