@@ -1,28 +1,22 @@
-"use client";
+import { forgotPasswordApi } from "../api/auth.api";
+import { toast } from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { forgotPasswordSchema, ForgotPasswordFormData } from "../schemas/forgot-password.schema";
+export const useForgotPassword = () => {
+  return useMutation({
+    mutationFn: forgotPasswordApi,
 
-export function useForgotPassword() {
-  const router = useRouter();
+    onSuccess: () => {
+      toast.success("Reset code sent to email");
+    },
 
-  const form = useForm<ForgotPasswordFormData>({
-    resolver: zodResolver(forgotPasswordSchema),
-    defaultValues: {
-      email: "",
+    onError: (error) => {
+      const message = axios.isAxiosError(error)
+        ? error.response?.data?.message
+        : "Something went wrong";
+
+      toast.error(message);
     },
   });
-
-  const onSubmit = (data: ForgotPasswordFormData) => {
-    // TODO: call forgot password API
-    console.log("Forgot password:", data);
-    router.push("/verify-code");
-  };
-
-  return {
-    ...form,
-    onSubmit,
-  };
-}
+};

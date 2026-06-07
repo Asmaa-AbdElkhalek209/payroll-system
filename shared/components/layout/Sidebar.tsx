@@ -12,12 +12,14 @@ import logoFull from "@/app/assets/logo.png";
 import logoIcon from "@/app/assets/logo-ico.png";
 
 import { useTranslation } from "react-i18next";
-
+import { useLogout } from "@/features/auth/hooks/use-logout";
 type Lang = "en" | "ar";
 
 export default function Sidebar({ open }: { open: boolean }) {
   const pathname = usePathname();
   const params = useParams();
+
+  const logout = useLogout();
 
   const lang = (params.lang as Lang) || "en";
   const isRTL = lang === "ar";
@@ -121,6 +123,8 @@ export default function Sidebar({ open }: { open: boolean }) {
 
             ${!open ? "justify-center" : ""}
           `}
+          onClick={() => logout.mutate()}
+          disabled={logout.isPending}
         >
           <LogOut size={20} />
 

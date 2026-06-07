@@ -1,29 +1,22 @@
-"use client";
+import { useMutation } from "@tanstack/react-query";
+import { resetPasswordApi } from "../api/auth.api";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { resetPasswordSchema, ResetPasswordFormData } from "../schemas/reset-password.schema";
+export const useResetPassword = () => {
+  return useMutation({
+    mutationFn: resetPasswordApi,
 
-export function useResetPassword() {
-  const router = useRouter();
+    onSuccess: () => {
+      toast.success("Password reset successfully");
+    },
 
-  const form = useForm<ResetPasswordFormData>({
-    resolver: zodResolver(resetPasswordSchema),
-    defaultValues: {
-      password: "",
-      confirm: "",
+    onError: (error) => {
+      const message = axios.isAxiosError(error)
+        ? error.response?.data?.message
+        : "Reset password failed";
+
+      toast.error(message);
     },
   });
-
-  const onSubmit = (data: ResetPasswordFormData) => {
-    // TODO: call reset password API
-    console.log("Reset password:", data);
-    router.push("/login");
-  };
-
-  return {
-    ...form,
-    onSubmit,
-  };
-}
+};

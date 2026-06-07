@@ -1,9 +1,5 @@
-/**
- * Home component - Main page component of the Next.js application
- * @returns {JSX.Element} The rendered Home component
- */
 import { redirect } from "next/navigation";
 
-export default function HomePage() {
-  redirect("/en/dashboard");
+export default function HomePage({ params }: { params: { lang: string } }) {
+  redirect(`/${params.lang}/dashboard`);
 }

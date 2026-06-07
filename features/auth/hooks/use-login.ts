@@ -8,11 +8,10 @@ import toast from "react-hot-toast";
 
 import { loginSchema, LoginFormData } from "../schemas/login.schema";
 import { loginApi } from "../api/auth.api";
-import { useAuthStore } from "../store/auth-store";
-
+import { useParams } from "next/navigation";
 export function useLogin() {
   const router = useRouter();
-  const setUser = useAuthStore((s) => s.setUser);
+  const lang = useParams().lang as string;
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -25,12 +24,10 @@ export function useLogin() {
   const mutation = useMutation({
     mutationFn: loginApi,
 
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Welcome back 👋");
 
-      setUser(data.user); // مهم جدًا
-
-      router.push("/dashboard");
+      router.push(`/${lang}/dashboard`);
     },
 
     onError: (error: any) => {
