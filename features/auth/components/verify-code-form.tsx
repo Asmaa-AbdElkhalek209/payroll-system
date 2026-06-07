@@ -2,18 +2,24 @@
 
 import logo from "@/app/assets/logo-icon-light.png";
 import Link from "next/link";
+import { useParams, useSearchParams } from "next/navigation";
+
 import {
   AuthCard,
   OtpInput,
   SubmitButton,
   SecondaryButton,
 } from "@/shared/components/auth";
+
 import { useVerifyCode } from "../hooks/use-verify-code";
-import { useParams } from "next/navigation";
 
 export default function VerifyCodeForm() {
   const params = useParams();
-  const lang = params.lang;
+  const lang = params.lang as string;
+
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email") || "";
+
   const {
     register,
     handleSubmit,
@@ -31,12 +37,12 @@ export default function VerifyCodeForm() {
         Type the code we emailed to you.
       </p>
 
-      <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <OtpInput
-          name="code"
+          name="otp"
           length={4}
           register={register}
-          error={errors.code ? errors.code.message : undefined}
+          error={errors.otp?.message}
         />
 
         <div className="flex flex-col items-center gap-4">
