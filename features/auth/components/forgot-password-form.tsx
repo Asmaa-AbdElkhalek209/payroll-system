@@ -1,8 +1,9 @@
 "use client";
 
 import { Mail } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import logo from "@/app/assets/logo-icon-light.png";
+
 import {
   AuthCard,
   AuthHeader,
@@ -10,11 +11,13 @@ import {
   InputField,
   SubmitButton,
 } from "@/shared/components/auth";
+
 import { useForgotPassword } from "../hooks/use-forgot-password";
 
 export default function ForgotPasswordForm() {
   const params = useParams();
-  const lang = params.lang;
+  const lang = params.lang as string;
+
   const {
     register,
     handleSubmit,
@@ -36,7 +39,6 @@ export default function ForgotPasswordForm() {
           placeholder="Email Address"
           icon={Mail}
           autoComplete="email"
-          required
           {...register("email")}
           error={errors.email?.message}
         />
