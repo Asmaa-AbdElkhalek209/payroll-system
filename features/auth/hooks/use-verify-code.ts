@@ -1,28 +1,22 @@
-"use client";
+import { useMutation } from "@tanstack/react-query";
+import { verifyCodeApi } from "../api/auth.api";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { verifyCodeSchema, VerifyCodeFormData } from "../schemas/verify-code.schema";
+export const useVerifyCode = () => {
+  return useMutation({
+    mutationFn: verifyCodeApi,
 
-export function useVerifyCode() {
-  const router = useRouter();
+    onSuccess: () => {
+      toast.success("Code verified successfully");
+    },
 
-  const form = useForm<VerifyCodeFormData>({
-    resolver: zodResolver(verifyCodeSchema),
-    defaultValues: {
-      code: ["", "", "", ""],
+    onError: (error) => {
+      const message = axios.isAxiosError(error)
+        ? error.response?.data?.message
+        : "Invalid code";
+
+      toast.error(message);
     },
   });
-
-  const onSubmit = (data: VerifyCodeFormData) => {
-    // TODO: verify code API
-    console.log("Verify code:", data);
-    router.push("/reset-password");
-  };
-
-  return {
-    ...form,
-    onSubmit,
-  };
-}
+};

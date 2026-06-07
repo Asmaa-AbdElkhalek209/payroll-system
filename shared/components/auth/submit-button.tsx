@@ -1,6 +1,6 @@
 "use client";
 
-import { SubmitButtonProps } from "../../../features/auth/types/auth-types";
+import { SubmitButtonProps } from "../../types/auth-types";
 
 export function SubmitButton({
   children,

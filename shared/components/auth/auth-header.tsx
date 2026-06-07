@@ -1,6 +1,6 @@
 "use client";
 
-import { AuthHeaderProps } from "../../../features/auth/types/auth-types";
+import { AuthHeaderProps } from "../../types/auth-types";
 
 export function AuthHeader({ title, subtitle }: AuthHeaderProps) {
   return (

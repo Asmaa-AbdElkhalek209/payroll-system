@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Lock, Eye, EyeOff } from "lucide-react";
-import { PasswordFieldProps } from "../../../features/auth/types/auth-types";
+import { PasswordFieldProps } from "../../types/auth-types";
 
 export function PasswordField({
   id,

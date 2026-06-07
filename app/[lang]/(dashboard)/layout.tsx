@@ -1,4 +1,5 @@
 "use client";
+
 import Navbar from "@/shared/components/layout/Navbar";
 import Sidebar from "@/shared/components/layout/Sidebar";
 import { useState } from "react";
@@ -8,7 +9,7 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState(true);
 
   return (
     <div className="flex h-screen bg-background">

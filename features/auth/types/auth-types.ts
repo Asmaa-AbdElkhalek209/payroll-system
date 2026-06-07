@@ -1,7 +1,15 @@
 import { LucideIcon } from "lucide-react";
 import { ReactNode } from "react";
 import { UseFormRegisterReturn, UseFormRegister } from "react-hook-form";
+import { User } from "@/shared/types/user.types";
 
+export interface MeResponse {
+  user: User;
+}
+export interface LoginResponse {
+  message: string;
+  user: User;
+}
 export interface AuthCardProps {
   children: ReactNode;
   logo?: string;

@@ -3,12 +3,16 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 import { loginSchema, LoginFormData } from "../schemas/login.schema";
 import { loginApi } from "../api/auth.api";
-import { redirect } from "next/navigation";
-
+import { useParams } from "next/navigation";
 export function useLogin() {
+  const router = useRouter();
+  const lang = useParams().lang as string;
+
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -19,13 +23,18 @@ export function useLogin() {
 
   const mutation = useMutation({
     mutationFn: loginApi,
-    onSuccess: (data) => {
-      console.log("Login success:", data);
-      redirect("/dashboard");
-      // redirect to dashboard
+
+    onSuccess: () => {
+      toast.success("Welcome back 👋");
+
+      router.push(`/${lang}/dashboard`);
     },
-    onError: (error) => {
-      console.log("Login error:", error);
+
+    onError: (error: any) => {
+      const message =
+        error.response?.data?.message || "Login failed. Please try again.";
+
+      toast.error(message);
     },
   });
 
@@ -37,6 +46,5 @@ export function useLogin() {
     ...form,
     onSubmit,
     isSubmitting: mutation.isPending,
-    error: mutation.error,
   };
 }
