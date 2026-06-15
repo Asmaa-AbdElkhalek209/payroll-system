@@ -3,15 +3,19 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import toast from "react-hot-toast";
 
 import { loginSchema, LoginFormData } from "../schemas/login.schema";
 import { loginApi } from "../api/auth.api";
-import { useParams } from "next/navigation";
+import { useAuthStore } from "../store/auth-store";
+import { User } from "../types/user.types";
+
 export function useLogin() {
   const router = useRouter();
-  const lang = useParams().lang as string;
+  const { lang } = useParams<{ lang: string }>();
+
+  const setUser = useAuthStore((s) => s.setUser);
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -24,15 +28,24 @@ export function useLogin() {
   const mutation = useMutation({
     mutationFn: loginApi,
 
-    onSuccess: () => {
-      toast.success("Welcome back 👋");
+    onSuccess: (data) => {
+      const user: User = data.user;
 
-      router.push(`/${lang}/dashboard`);
+      setUser(user);
+
+      toast.success(`Welcome back ${user.name} 👋`);
+
+      const roleName = user?.roles?.[0]?.name;
+      if (roleName === "HR") {
+        router.push(`/${lang}/hr`);
+      } else {
+        router.push(`/${lang}/employee`);
+      }
     },
 
     onError: (error: any) => {
-      const message =
-        error.response?.data?.message || "Login failed. Please try again.";
+      let message = error?.response?.data?.message;
+      message = "Login failed. Please try again.";
 
       toast.error(message);
     },

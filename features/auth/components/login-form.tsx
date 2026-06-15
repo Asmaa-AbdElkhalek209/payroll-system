@@ -16,22 +16,17 @@ import {
 import { useLogin } from "../hooks/use-login";
 import { useParams } from "next/navigation";
 
-/**
- * LoginForm component for user authentication
- * Handles the login form UI and form submission
- */
 export default function LoginForm() {
   // Extract language parameter from URL
   const params = useParams();
   const lang = params.lang;
 
-  // Destructure properties from the useLogin custom hook
   const {
-    register, // Function to register form inputs
-    handleSubmit, // Function to handle form submission
-    formState: { errors }, // Form state containing validation errors
-    onSubmit, // Submission handler function
-    isSubmitting, // Loading state during form submission
+    register,
+    handleSubmit,
+    formState: { errors },
+    onSubmit,
+    isSubmitting,
   } = useLogin();
 
   return (

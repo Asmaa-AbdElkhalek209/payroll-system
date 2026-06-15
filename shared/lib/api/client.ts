@@ -10,4 +10,3 @@ export const apiClient = axios.create({
 
 //   withCredentials: true,
 // This will ensure that cookies are sent with every request,
-// allowing the server to maintain the session and authenticate the user properly.
